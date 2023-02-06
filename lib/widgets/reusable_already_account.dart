@@ -16,7 +16,7 @@ class ReusableAlreadyAccount extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(accountText),
-        TextButton(onPressed: onTap, child: Text(buttonText,style: textButtonStyle,))
+        TextButton(onPressed: onTap, child: Text(buttonText,style: textButtonStyle(context),))
       ],
     );
   }

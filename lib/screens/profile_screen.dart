@@ -1,27 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:taskmanagementapiapp/screens/auth/login_screen.dart';
-import 'package:taskmanagementapiapp/utils/routes/routes_name.dart';
-import 'package:taskmanagementapiapp/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/colors.dart';
-import '../../utils/constants.dart';
-import '../../utils/style.dart';
-import '../../widgets/custom_button.dart';
-import '../../widgets/prefix_icon.dart';
-import '../../widgets/reusable_already_account.dart';
-import '../../widgets/suffix_icon.dart';
+import 'package:taskmanagementapiapp/res/user_data.dart';
+import 'package:taskmanagementapiapp/view_model/profile_update_view_model.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+import '../utils/constants.dart';
+import '../utils/style.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/prefix_icon.dart';
+
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-
-  ValueNotifier<bool> _obsecurePass = ValueNotifier<bool>(true);
+class _ProfileScreenState extends State<ProfileScreen> {
 
   final _form = GlobalKey<FormState>();
 
@@ -31,10 +26,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
-    final authViewModel = Provider.of<AuthViewModel>(context);
+
+    final profileViewModel = Provider.of<ProfileUpdateViewModel>(context);
+
+    _emailTEController.text = UserData.email!;
+    _firstNameTEController.text = UserData.firstName!;
+    _lastNameTEController.text = UserData.lastName!;
+    _mobileTEController.text = UserData.mobile!;
     print("build");
     return Scaffold(
         body: SafeArea(
@@ -49,9 +49,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Create Account",style: titleTextStyle(context)),
+                      Text("Update Account",style: titleTextStyle(context)),
                       const SizedBox(height: 8),
-                      Text("Sign up to continue",style: subTextStyle(context)),
+                      Text("Update Account to continue",style: subTextStyle(context)),
                       const SizedBox(height: 25),
                       //first name field
                       TextFormField(
@@ -87,22 +87,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 15),
                       //email field
                       TextFormField(
+                        enabled: false,
                         controller: _emailTEController,
                         keyboardType: TextInputType.emailAddress,
                         decoration:  InputDecoration(
                           prefixIcon: PrefixIcon(image: ic_envelope1),
                           hintText: "Enter your Email",
                         ),
-                        validator: (value){
-                          String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                          RegExp regex =  RegExp(pattern);
-                          if(_emailTEController.text.isEmpty ){
-                            return "Enter your Email";
-                          }else if(!regex.hasMatch(value!)){
-                            return "Enter your Right Email";
-                          }
-                          return null;
-                        },
                       ),
                       const SizedBox(height: 15),
                       //Mobile number field
@@ -123,60 +114,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                       ),
                       const SizedBox(height: 15),
-                      //Password field
-                      ValueListenableBuilder(
-                          valueListenable: _obsecurePass,
-                          builder: (context,value,child){
-                            return TextFormField(
-                              controller: _passTEController,
-                              obscureText: _obsecurePass.value,
-                              decoration: InputDecoration(
-                                prefixIcon: PrefixIcon(image: ic_lock),
-                                hintText: "Enter your Password",
-                                suffixIcon: SuffixIcon(visibility: _obsecurePass.value,onTap: () {
-                                    _obsecurePass.value = !_obsecurePass.value;
-                                  },
-                                ),
-                              ),
-                              validator: (value){
-                                if(_passTEController.text.isEmpty ){
-                                  return "Enter your Password";
-                                }else if(value!.length <6){
-                                  return "Password more than 6 charracter";
-                                }
-                                return null;
-                              },
-                            );
-                          }
-                      ),
-
 
                       const SizedBox(height: 15),
                       // submit button
-                      CustomButton(loading: authViewModel.loading,text: "Sign Up",onTap: (){
+                      CustomButton(loading: profileViewModel.loading,text: "Submit",onTap: (){
                         if(_form.currentState!.validate()){
                           Map data =
-                            {
-                              "email":_emailTEController.text,
-                              "firstName":_firstNameTEController.text,
-                              "lastName":_lastNameTEController.text,
-                              "mobile": _mobileTEController.text,
-                              "password":_passTEController.text,
-                              "photo":""
+                          {
+                            "firstName":_firstNameTEController.text,
+                            "lastName":_lastNameTEController.text,
+                            "mobile": _mobileTEController.text,
+                            "photo":""
                           };
-                          authViewModel.signApi(data, context);
-                          print("next screen");
+                          // authViewModel.signApi(data, context);
+                          profileViewModel.profileUpApiCall(data);
                         }
                       }),
-                      const SizedBox(height: 20),
-                      // have an account
-                      ReusableAlreadyAccount(
-                        accountText: "Already Have an Account?",
-                        buttonText: "Sign In",
-                        onTap: (){
-                          Navigator.pushNamedAndRemoveUntil(context, RoutesName.login, (route) => false);
-                        },
-                      )
+
                     ],
                   ),
                 ),
@@ -186,6 +140,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
         )
     );
   }
-
-
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmanagementapiapp/res/app_url.dart';
-import 'package:taskmanagementapiapp/view_model/get_taskdata_model.dart';
+import 'package:taskmanagementapiapp/view_model/get_taskdata_view_model.dart';
 
 import '../../utils/colors.dart';
 import '../../widgets/task_shimmier_effect.dart';

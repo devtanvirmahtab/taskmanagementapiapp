@@ -11,5 +11,7 @@ class RoutesName{
   static const String confirmScreen = "confirm_screen";
 
   //home Screen routes name
+  static const String mainhome = "main_home";
   static const String home = "home_screen";
+
 }

@@ -17,7 +17,7 @@ class ItemCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20,vertical: 7),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color:Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20)
       ),
       child: Padding(
@@ -29,11 +29,11 @@ class ItemCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(title ?? "",style: TextStyle(color: appPrimaryColor,fontSize: 20,fontWeight: FontWeight.w700),),
-                IconButton(onPressed: favTap, icon:const Icon(Icons.favorite_outline_outlined),color: appPrimaryColor),
+                Text(title ?? "",style: Theme.of(context).textTheme.headline1),
+                IconButton(onPressed: favTap, icon:const Icon(Icons.favorite_outline_outlined),color: Theme.of(context).primaryColor),
               ],
             ),
-            Text(description ?? "",style: TextStyle(color: appLightTextColor.withOpacity(.7),fontSize: 14),),
+            Text(description ?? "",style: Theme.of(context).textTheme.subtitle1),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

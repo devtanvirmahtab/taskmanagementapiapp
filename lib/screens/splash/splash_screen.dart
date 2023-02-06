@@ -7,6 +7,7 @@ import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../utils/size_config.dart';
+import '../home_page.dart';
 
 class SplashScreen extends StatefulWidget {
    SplashScreen({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ void gotoNextScreen()async{
       UserData.mobile = sharePref.getString("mobile");
 
       Future.delayed(Duration(seconds: 2)).then((value) => {
-        Navigator.pushNamed(context, RoutesName.home)
+        Navigator.pushNamedAndRemoveUntil(context, RoutesName.mainhome, (route) => false)
       });
     }else{
       Future.delayed(Duration(seconds: 2)).then((value) => {

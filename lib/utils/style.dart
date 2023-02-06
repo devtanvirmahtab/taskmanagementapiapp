@@ -8,12 +8,12 @@ TextStyle titleTextStyle(BuildContext context) =>  TextStyle(
     fontWeight: FontWeight.bold
 );
 
-TextStyle subTextStyle = const TextStyle(
-    color: appLightTextColor,
+TextStyle subTextStyle(BuildContext context) => TextStyle(
+    color: Theme.of(context).primaryColor,
     fontSize: 18
 );
 
-TextStyle textButtonStyle = const TextStyle(
-    color: appLightTextColor,
+TextStyle textButtonStyle (BuildContext context) => TextStyle(
+    color: Theme.of(context).primaryColor,
     fontSize: 16
 );

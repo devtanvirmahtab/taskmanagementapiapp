@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text("Welcome Back!",style: titleTextStyle(context)),
                     const SizedBox(height: 8),
-                    Text("Sign in to continue",style: subTextStyle),
+                    Text("Sign in to continue",style: subTextStyle(context)),
                     const SizedBox(height: 25),
                     //email textField
                     TextFormField(
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPasswordScreen()));
                         },
-                        child: Text("Forget Password",style: textButtonStyle,),
+                        child: Text("Forget Password",style: textButtonStyle(context),),
                       ),
                     ),
                     const SizedBox(height: 15),

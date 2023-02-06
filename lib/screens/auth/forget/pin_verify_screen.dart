@@ -63,7 +63,7 @@ class _PinVerifyScreenState extends State<PinVerifyScreen> {
                     children: [
                       Text("Forget Password!",style: titleTextStyle(context)),
                       const SizedBox(height: 8),
-                      Text("Enter Email to continue",style: subTextStyle),
+                      Text("Enter Email to continue",style: subTextStyle(context)),
                       const SizedBox(height: 25),
                       //email field
                       PinCodeTextField(

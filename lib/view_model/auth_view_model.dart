@@ -44,7 +44,9 @@ class AuthViewModel with ChangeNotifier{
 
         print(value);
         // Navigator.pushNamed(context, );
-        Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, RoutesName.mainhome, (route) => false);
+      }else if(value["status"] == "unauthorized"){
+        Utiles.toastMessage("please check email and Password");
       }
       if(kDebugMode){
         print(value);
@@ -52,7 +54,7 @@ class AuthViewModel with ChangeNotifier{
       }
     }).onError((error, stackTrace){
       setLoading(false);
-      Utiles.toastMessage("please check email and Password");
+      Utiles.toastMessage("No Internet Connection");
       if(kDebugMode){
         print(error.toString());
       }

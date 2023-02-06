@@ -55,6 +55,7 @@ class NetworkApiService extends  BaseApiServices{
       responseJson = returnResponse(response);
 
     }on SocketException{
+      Utiles.toastMessage("No Internet Connection");
       throw FetchDataException("No Internet Connection");
     }
     return responseJson;
@@ -72,8 +73,10 @@ class NetworkApiService extends  BaseApiServices{
       case 400:
         throw BadRequestException(response.body.toString());
       case 401:
-        sharedPref.clear();
-        return navigatorKey.currentState?.pushNamedAndRemoveUntil(RoutesName.login, (route) => false);
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson ;
+        // sharedPref.clear();
+        // return navigatorKey.currentState?.pushNamedAndRemoveUntil(RoutesName.login, (route) => false);
       case 404:
         throw UnauthorisedException(response.body.toString());
       default:

@@ -36,7 +36,7 @@ class ConfirmPassScreen extends StatelessWidget {
                     children: [
                       Text("Confirm Password!",style: titleTextStyle(context)),
                       const SizedBox(height: 8),
-                      Text("New password set here",style: subTextStyle),
+                      Text("New password set here",style: subTextStyle(context)),
                       const SizedBox(height: 25),
                       //email field
                       TextFormField(

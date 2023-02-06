@@ -1,18 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 
 
 import 'package:taskmanagementapiapp/utils/colors.dart';
-import 'package:taskmanagementapiapp/utils/routes/routes_name.dart';
-import 'package:taskmanagementapiapp/utils/style.dart';
-import 'package:taskmanagementapiapp/view_model/get_taskdata_model.dart';
+import 'package:taskmanagementapiapp/view_model/get_taskdata_view_model.dart';
 import 'package:taskmanagementapiapp/widgets/custom_button.dart';
 
-import '../../model/get_task_model.dart';
 import '../../res/app_url.dart';
-import '../../res/user_data.dart';
 import '../../widgets/item_card.dart';
 import '../../widgets/task_shimmier_effect.dart';
 
@@ -35,7 +31,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     "Cancelled":20,
     "In Progress":20,
   };
-  List<Color> color = [Colors.blue,Colors.pink.withOpacity(.4),Colors.cyanAccent.shade700,appLightTextColor.withOpacity(.7)];
+  List<Color> color = [
+    Colors.blue,
+    Colors.pink.withOpacity(.4),
+    Colors.cyanAccent.shade700,
+    appLightTextColor.withOpacity(.7)];
 
   List tasklist = [
     "New Task",
@@ -57,126 +57,97 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
 
-    final getTaskDataModel = Provider.of<GetTaskDataModel>(context,listen: false);
-     print("build");
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading:const Padding(
-          padding:  EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            child: Icon(Icons.person),
-          ),
-        ),
-        title: Text("${UserData.firstName ?? ""} ${UserData.lastName}"),
-        actions: [
-          IconButton(onPressed: ()async{
-            final sharPref = await SharedPreferences.getInstance();
-            sharPref.clear();
-            // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> LoginScreen()), (route) => false);
-            Navigator.pushNamedAndRemoveUntil(context, RoutesName.login, (route) => false);
-          }, icon: const Icon(Icons.logout))
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          child: SingleChildScrollView(
-            child: Column(
+    if(kDebugMode){
+      print("build");
+    }
+    return  SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 15,),
+          Container(
+            margin: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(20)
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20,20,20,40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 20,),
                   Container(
-                    margin: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20,20,20,40),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Hi Tanvir",style: TextStyle(color: appPrimaryColor,fontSize: 25,fontWeight: FontWeight.w600),),
-                          const SizedBox(height: 20,),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: PieChart(
-                              dataMap: dataMap,
-                              animationDuration: Duration(seconds: 2),
-                              chartLegendSpacing: 50,
-                              chartRadius: MediaQuery.of(context).size.width / 4,
-                              colorList: color,
-                              initialAngleInDegree: 0,
-                              chartType: ChartType.ring,
-                              ringStrokeWidth: 32,
-                              legendOptions: const LegendOptions(
-                                showLegendsInRow: false,
-                                legendPosition: LegendPosition.left,
-                                showLegends: true,
-                                legendTextStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: appLightTextColor
-                                ),
-                              ),
-                              // gradientList: ---To add gradient colors---
-                              // emptyColorGradient: ---Empty Color gradient---
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 10,),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 30),
                     alignment: Alignment.topLeft,
-                      child: Text(
-                        "New Task List",
-                        style: TextStyle(
-                          color: appLightTextColor.withOpacity(.9),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.start,
-                      )
-                  ),
-                  const SizedBox(height: 10,),
-                  Consumer<GetTaskDataModel>(
-                    builder: (context,value,child){
-                      return InkWell(
-                        onTap: (){
-                          print("consumer");
-                        },
-                        child: Container(
-                          child: value.loading ? TaskShimmerEffect(count: value.getTaskModel?.data?.length,) : ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: value.getTaskModel?.data?.length ?? 0,
-                            itemBuilder: (context,index){
-                              var reverselist = value.getTaskModel!.data!.reversed.toList();
-                              final task = reverselist[index];
-                              return ItemCard(
-                                title: task.title!,
-                                description: task.description!,
-                                status: task.status!,
-                                favTap: (){},
-                                editTap: (){
-                                  showModalSheetForChangeStatus();
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    },
+                    child: PieChart(
+                      dataMap: dataMap,
+                      animationDuration: const Duration(seconds: 2),
+                      chartLegendSpacing: 50,
+                      chartRadius: MediaQuery.of(context).size.width / 4,
+                      colorList: color,
+                      initialAngleInDegree: 0,
+                      chartType: ChartType.ring,
+                      ringStrokeWidth: 32,
+                      legendOptions:  LegendOptions(
+                        showLegendsInRow: false,
+                        legendPosition: LegendPosition.left,
+                        showLegends: true,
+                        legendTextStyle: Theme.of(context).textTheme.headline2!
+                      ),
+                      // gradientList: ---To add gradient colors---
+                      // emptyColorGradient: ---Empty Color gradient---
+                    ),
                   )
                 ],
+              ),
             ),
           ),
-        ),
+
+          const SizedBox(height: 10,),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 30),
+              alignment: Alignment.topLeft,
+              child: Text(
+                "New Task List",
+                style: Theme.of(context).textTheme.headline1,
+                textAlign: TextAlign.start,
+              )
+          ),
+          const SizedBox(height: 10,),
+          Consumer<GetTaskDataModel>(
+            builder: (context,value,child){
+              return InkWell(
+                onTap: (){
+                   if(kDebugMode){
+                     print("consumer");
+                   }
+                },
+                child: Container(
+                  child: value.loading ? TaskShimmerEffect(count: value.getTaskModel?.data?.length,) : ListView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: value.getTaskModel?.data?.length ?? 0,
+                    itemBuilder: (context,index){
+                      var reverselist = value.getTaskModel!.data!.reversed.toList();
+                      final task = reverselist[index];
+                      return ItemCard(
+                        title: task.title!,
+                        description: task.description!,
+                        status: task.status!,
+                        favTap: (){},
+                        editTap: (){
+                          showModalSheetForChangeStatus();
+                        },
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          )
+        ],
       ),
     );
   }

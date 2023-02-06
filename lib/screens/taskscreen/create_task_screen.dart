@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:taskmanagementapiapp/view_model/get_taskdata_model.dart';
+import 'package:taskmanagementapiapp/view_model/get_taskdata_view_model.dart';
 
 import '../../utils/style.dart';
 import '../../widgets/custom_button.dart';
@@ -47,7 +47,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                     children: [
                       Text("Create Task",style: titleTextStyle(context)),
                       const SizedBox(height: 8),
-                      Text("Create Task ",style: subTextStyle),
+                      Text("Create Task ",style: subTextStyle(context)),
                       const SizedBox(height: 25),
                       //task title field
                       TextFormField(
