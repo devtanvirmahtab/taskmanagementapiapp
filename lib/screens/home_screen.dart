@@ -122,15 +122,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 child: SafeArea(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(6.0),
                                     child: GNav(
                                       hoverColor: Colors.grey[100]!,
                                       gap: 3,
                                       activeColor: Colors.white,
                                       iconSize: 24,
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 10),
-                                      duration: Duration(milliseconds: 400),
+                                      duration: const Duration(milliseconds: 400),
                                       tabBackgroundColor: Theme
                                           .of(context)
                                           .cardColor
@@ -138,10 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Theme
                                           .of(context)
                                           .focusColor,
-                                      tabs: const[
+                                      tabs: const [
                                         GButton(
                                           icon: Icons.paste_rounded,
-                                          text: 'New Task',
+                                          text: 'New',
                                         ),
                                         GButton(
                                           icon: Icons.ac_unit,
