@@ -57,7 +57,6 @@ void gotoNextScreen()async{
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: appPrimaryLightColor,
       body: SizedBox(
         width: double.infinity,
         child: Column(

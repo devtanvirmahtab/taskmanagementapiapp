@@ -144,12 +144,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           text: 'New',
                                         ),
                                         GButton(
-                                          icon: Icons.ac_unit,
-                                          text: 'In Progress',
-                                        ),
-                                        GButton(
                                           icon: Icons.cancel_outlined,
                                           text: 'Cancelled',
+                                        ),
+                                        GButton(
+                                          icon: Icons.ac_unit,
+                                          text: 'In Progress',
                                         ),
                                         GButton(
                                           icon: Icons.task_outlined,

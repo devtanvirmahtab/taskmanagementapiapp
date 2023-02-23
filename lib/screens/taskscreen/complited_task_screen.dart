@@ -4,6 +4,7 @@ import 'package:taskmanagementapiapp/res/app_url.dart';
 import 'package:taskmanagementapiapp/view_model/get_taskdata_view_model.dart';
 
 import '../../utils/colors.dart';
+import '../../widgets/item_card.dart';
 import '../../widgets/task_shimmier_effect.dart';
 
 class CompletedTaskScreen extends StatefulWidget {
@@ -44,32 +45,14 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                 var taskList = value.getTaskModel!.data!.toList();
                 final task = taskList[index];
 
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20,vertical: 7),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:  [
-                            Text(task.title ?? "",style: const TextStyle(color: appPrimaryColor,fontSize: 20,fontWeight: FontWeight.w700),),
-                            Icon(Icons.favorite_outline_outlined,color: appPrimaryColor),
-                          ],
-                        ),
-                        Text(task.title ?? "",style: TextStyle(color: appLightTextColor.withOpacity(.7),fontSize: 14),),
-                        Chip(
-                          label: Text(task.status ?? ""),
-                        )
-                      ],
-                    ),
-                  ),
+                return ItemCard(
+                  title: task.title!,
+                  description: task.description!,
+                  status: task.status!,
+                  favTap: (){},
+                  editTap: (){
+
+                  },
                 );
               },
             );

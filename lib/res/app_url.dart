@@ -8,8 +8,10 @@ class AppUrls{
   static var recoveryOtpUrl = baseUrl+"/RecoverVerifyOTP/";
   static var recoveryResetPassUrl = baseUrl+"/RecoverResetPass";
   static var createTaskEndPointUrl = baseUrl+"/createTask";
+  static var taskStatusCountEndPointUrl = baseUrl+"/taskStatusCount";
   static var newTaskEndPoint = baseUrl+"/listTaskByStatus/New";
   static var completedTaskEndPoint = baseUrl+"/listTaskByStatus/Completed";
   static var CancelledTaskEndPoint = baseUrl+"/listTaskByStatus/Cancelled";
   static var InProgressTaskEndPoint = baseUrl+"/listTaskByStatus/InProgress";
+  static String ChangeStatusEndPoint(String taskId, String status) => baseUrl+"/updateTaskStatus/$taskId/$status";
 }

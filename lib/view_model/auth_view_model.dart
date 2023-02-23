@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:taskmanagementapiapp/utils/routes/routes_name.dart';
 import 'package:taskmanagementapiapp/utils/utiles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taskmanagementapiapp/view_model/drawer_view_model.dart';
+import 'package:provider/provider.dart';
 
 
 import '../repository/auth_repository.dart';
+import '../res/app_url.dart';
 import '../res/user_data.dart';
+import 'get_taskdata_view_model.dart';
 
 class AuthViewModel with ChangeNotifier{
 
@@ -44,7 +48,15 @@ class AuthViewModel with ChangeNotifier{
 
         print(value);
         // Navigator.pushNamed(context, );
+        final getTaskDataModel = Provider.of<GetTaskDataModel>(context, listen: false);
+        getTaskDataModel.getStatusCountApi(AppUrls.taskStatusCountEndPointUrl);
+
         Navigator.pushNamedAndRemoveUntil(context, RoutesName.mainhome, (route) => false);
+
+        final drawerViewModel = Provider.of<DrawerViewModel>(context,listen: false);
+        drawerViewModel.setCloseDrawer();
+
+
       }else if(value["status"] == "unauthorized"){
         Utiles.toastMessage("please check email and Password");
       }
@@ -62,13 +74,28 @@ class AuthViewModel with ChangeNotifier{
   }
 
   Future<void> signApi(dynamic data, BuildContext context)async{
+    final sharePref = await SharedPreferences.getInstance();
+    sharePref.clear();
     setLoading(true);
     _myRepo.signApiRequest(data).then((value){
       setLoading(false);
-      Utiles.toastMessage("Sign Up Successfull");
       if(value["status"] == "success"){
+        UserData.token = value["token"];
+        UserData.email = value["data"]["email"];
+        UserData.firstName = value["data"]["firstName"];
+        UserData.lastName = value["data"]["lastName"];
+        UserData.photo = value["data"]["photo"];
+        UserData.mobile = value["data"]["mobile"];
+
+        sharePref.setString("token", value["token"]);
+        sharePref.setString("email", value["data"]["email"]);
+        sharePref.setString("firstName", value["data"]["firstName"]);
+        sharePref.setString("lastName", value["data"]["lastName"]);
+        sharePref.setString("photo", value["data"]["photo"]);
+        sharePref.setString("mobile", value["data"]["mobile"]);
         // Navigator.pushNamed(context, );
-        Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, RoutesName.mainhome, (route) => false);
+        Utiles.toastMessage("Sign Up Successfull");
       }else if(value["data"]["keyValue"]["email"] != null){
         Utiles.toastMessage("Already Have Account \n Please Login");
       }

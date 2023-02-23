@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:taskmanagementapiapp/view_model/get_taskdata_view_model.dart';
 
+import '../../res/app_url.dart';
 import '../../utils/style.dart';
 import '../../widgets/custom_button.dart';
 
@@ -101,6 +102,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                           if(getTaskDataModel.result == "success"){
                             _subjectTEController.clear();
                             _descriptionTEController.clear();
+                            getTaskDataModel.getNewTaskApi(AppUrls.newTaskEndPoint);
                           }
                           // if()
                         }
